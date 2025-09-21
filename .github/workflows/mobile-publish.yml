@@ -71,7 +71,8 @@ jobs:
           echo "@phil:registry=${REGISTRY}" > ~/.npmrc
           echo "//npm.philscott.io/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
           npm config set registry "${REGISTRY}"
-        env: { NPM_TOKEN: ${{ secrets.NPM_TOKEN }} }
+        env: 
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @phil/remote with dist-tag ${{ matrix.channel }}
         run: npm publish --tag ${{ matrix.channel }} --access public --registry "${REGISTRY}"
