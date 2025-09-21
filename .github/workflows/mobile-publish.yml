@@ -13,8 +13,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     defaults:
-      env:
-        VERDACCIO_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: 
         working-directory: ${{ env.WORKDIR }} 
     strategy:
