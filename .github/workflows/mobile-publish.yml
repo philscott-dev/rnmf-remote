@@ -1,0 +1,79 @@
+name: mobile-publish
+
+on:
+  push:
+    tags: ["v*"]
+
+env:
+  REGISTRY: https://npm.philscott.io
+  WORKDIR: mobile
+  NODE_VERSION: 20
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: ${{ env.WORKDIR }} } }
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - channel: host-x
+            preset_module: "@rnmf/preset-host-x"
+            rn_range: ""           # optional: e.g. "^0.77.2"
+          - channel: host-y
+            preset_module: "@rnmf/preset-host-y"
+            rn_range: ""           # optional: e.g. "^0.78.0"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            ${{ env.WORKDIR }}/yarn.lock
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Read base version
+        id: v
+        run: echo "BASE=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Patch manifest for ${{ matrix.channel }}
+        run: |
+          cp package.json package.json.bak
+          node -e "
+            const fs=require('fs'); const p=JSON.parse(fs.readFileSync('package.json'));
+            p.version = '${{ steps.v.outputs.BASE }}' + '-${{ matrix.channel }}.' + process.env.GITHUB_RUN_NUMBER;
+            p['rnx-kit']=p['rnx-kit']||{};
+            p['rnx-kit'].alignDeps=p['rnx-kit'].alignDeps||{};
+            p['rnx-kit'].alignDeps.presets=[ '${{ matrix.preset_module }}' ];
+            // Optionally force RN peer range per channel
+            p.peerDependencies = p.peerDependencies || {};
+            if ('${{ matrix.rn_range }}') p.peerDependencies['react-native'] = '${{ matrix.rn_range }}';
+            fs.writeFileSync('package.json', JSON.stringify(p,null,2));
+          "
+          cat package.json
+
+      - name: rnx align-deps (write)
+        run: npx rnx-align-deps --write
+
+      - name: Build (bob)
+        run: yarn build
+
+      - name: Auth to Verdaccio
+        run: |
+          echo "@phil:registry=${REGISTRY}" > ~/.npmrc
+          echo "//npm.philscott.io/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
+          npm config set registry "${REGISTRY}"
+        env: { NPM_TOKEN: ${{ secrets.NPM_TOKEN }} }
+
+      - name: Publish @phil/remote with dist-tag ${{ matrix.channel }}
+        run: npm publish --tag ${{ matrix.channel }} --access public --registry "${REGISTRY}"
+
+      - name: Restore manifest
+        if: always()
+        run: mv -f package.json.bak package.json || true

@@ -1,0 +1,63 @@
+name: mobile-ci
+
+on:
+  pull_request:
+    branches: [next]
+    paths: ["mobile/**"]
+
+env:
+  WORKDIR: mobile
+  NODE_VERSION: 20
+
+jobs:
+  check:
+    name: "mobile-ci (preset: ${{ matrix.preset_name }})"
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: ${{ env.WORKDIR }} } }
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset_name: host-x
+            preset_module: "@rnmf/preset-host-x"
+          - preset_name: host-y
+            preset_module: "@rnmf/preset-host-y"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+            ${{ env.WORKDIR }}/yarn.lock
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      # Patch package.json with the preset under test (no commit)
+      - name: Inject rnx-kit preset (${{ matrix.preset_name }})
+        run: |
+          cp package.json package.json.bak
+          node -e "
+            const fs=require('fs');
+            const p=JSON.parse(fs.readFileSync('package.json'));
+            p['rnx-kit']=p['rnx-kit']||{};
+            p['rnx-kit'].alignDeps=p['rnx-kit'].alignDeps||{};
+            p['rnx-kit'].alignDeps.presets=[ '${{ matrix.preset_module }}' ];
+            fs.writeFileSync('package.json', JSON.stringify(p,null,2));
+          "
+          cat package.json
+
+      - name: rnx align-deps (check)
+        run: npx rnx-align-deps
+
+      - name: Unit tests
+        run: |
+          if yarn -s run | grep -q '^test:'; then yarn test; else echo "no tests"; fi
+
+      - name: Restore package.json
+        if: always()
+        run: mv -f package.json.bak package.json || true
