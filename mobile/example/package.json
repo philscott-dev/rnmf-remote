@@ -21,5 +21,20 @@
   "devDependencies": {
     "react-native-builder-bob": "^0.40.13",
     "react-native-monorepo-config": "^0.1.9"
+  },
+  "rnx-kit": {
+    "kitType": "app",
+    "alignDeps": {
+      "presets": [
+        "@rnmf/preset-host-x"
+      ],
+      "requirements": [
+        "react-native@0.77"
+      ],
+      "capabilities": [
+        "core",
+        "react"
+      ]
+    }
   }
 }

@@ -159,7 +159,7 @@
     "kitType": "app",
     "alignDeps": {
       "presets": [
-        "@phil/rnx-preset"
+        "@rnmf/preset-host-x"
       ],
       "requirements": [
         "react-native@0.77"
