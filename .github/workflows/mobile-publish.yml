@@ -12,7 +12,9 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    defaults: 
+    defaults:
+      env:
+        VERDACCIO_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: 
         working-directory: ${{ env.WORKDIR }} 
     strategy:
@@ -73,6 +75,7 @@ jobs:
           npm config set registry "${REGISTRY}"
         env: 
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERDACCIO_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @phil/remote with dist-tag ${{ matrix.channel }}
         run: npm publish --tag ${{ matrix.channel }} --access public --registry "${REGISTRY}"
