@@ -69,7 +69,7 @@
     "@react-native/babel-preset": "0.81.1",
     "@react-native/eslint-config": "^0.81.1",
     "@release-it/conventional-changelog": "^10.0.1",
-    "@rnmf/preset-host-x": "^1.0.0",
+    "@rnmf/preset": "^1.1.0",
     "@rnx-kit/align-deps": "^3.2.2",
     "@types/jest": "^29.5.14",
     "@types/react": "^19.1.12",
@@ -159,10 +159,10 @@
     "kitType": "app",
     "alignDeps": {
       "presets": [
-        "@rnmf/preset-host-x"
+        "@rnmf/preset"
       ],
       "requirements": [
-        "react-native@0.77"
+        "react-native@0.77 || 0.81"
       ],
       "capabilities": [
         "core",

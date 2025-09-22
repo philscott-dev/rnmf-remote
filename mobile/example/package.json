@@ -26,7 +26,7 @@
     "kitType": "app",
     "alignDeps": {
       "presets": [
-        "@rnmf/preset-host-x"
+        "@rnmf/preset"
       ],
       "requirements": [
         "react-native@0.77"

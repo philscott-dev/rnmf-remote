@@ -3513,10 +3513,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rnmf/preset-host-x@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@rnmf/preset-host-x@npm:1.0.0"
-  checksum: 2b433ba15df83f428ef8e857b552c990b14db6518a71f1aae2a35ab84da15461ef6d105c1c3d8495c9219d568cb053fd0cfb01302a489dfccde8bd52044c250c
+"@rnmf/preset@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@rnmf/preset@npm:1.1.0"
+  checksum: 86aad191590eb59ecd93e7713c045bde1e31eea12378482d47af1922d9480554078f032e17c666f67300042e61b2bad30878375aaeb62b78a7ba242b13a2dda7
   languageName: node
   linkType: hard
 
@@ -10068,7 +10068,7 @@ __metadata:
     "@react-native/babel-preset": 0.81.1
     "@react-native/eslint-config": ^0.81.1
     "@release-it/conventional-changelog": ^10.0.1
-    "@rnmf/preset-host-x": ^1.0.0
+    "@rnmf/preset": ^1.1.0
     "@rnx-kit/align-deps": ^3.2.2
     "@types/jest": ^29.5.14
     "@types/react": ^19.1.12
