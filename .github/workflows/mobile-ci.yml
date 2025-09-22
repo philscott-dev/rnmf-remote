@@ -13,7 +13,11 @@ jobs:
   check:
     name: "mobile-ci (preset: ${{ matrix.preset_name }})"
     runs-on: ubuntu-latest
-    defaults: { run: { working-directory: ${{ env.WORKDIR }} } }
+    env:
+      VERDACCIO_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    defaults:
+      run:
+        working-directory: ${{ env.WORKDIR }} 
     strategy:
       fail-fast: false
       matrix:
