@@ -58,7 +58,7 @@
   },
   "homepage": "https://github.com/philscott-dev/mobile-remote-y#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://npm.philscott.io"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.8.1",
