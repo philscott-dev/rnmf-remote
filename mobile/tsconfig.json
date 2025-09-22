@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "mobile-remote-y": ["./src/index"]
+      "@rnmf/mobile": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

@@ -1,11 +1,11 @@
 {
-  "name": "mobile-remote-y",
+  "name": "@rnmf/mobile",
   "version": "0.1.0",
-  "description": "mobile remote y",
+  "description": "mobile remote",
   "main": "./lib/module/index.js",
   "types": "./lib/typescript/src/index.d.ts",
   "scripts": {
-    "example": "yarn workspace mobile-remote-y-example",
+    "example": "yarn workspace @rnmf/mobile-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -47,16 +47,6 @@
     "ios",
     "android"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/philscott-dev/mobile-remote-y.git"
-  },
-  "author": "Phil Scott <philscott.dev@gmail.com> (https://github.com/philscott-dev)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/philscott-dev/mobile-remote-y/issues"
-  },
-  "homepage": "https://github.com/philscott-dev/mobile-remote-y#readme",
   "publishConfig": {
     "registry": "https://npm.philscott.io"
   },
@@ -69,7 +59,7 @@
     "@react-native/babel-preset": "0.81.1",
     "@react-native/eslint-config": "^0.81.1",
     "@release-it/conventional-changelog": "^10.0.1",
-    "@rnmf/preset": "^1.1.0",
+    "@rnmf/preset": "latest",
     "@rnx-kit/align-deps": "^3.2.2",
     "@types/jest": "^29.5.14",
     "@types/react": "^19.1.12",
@@ -80,15 +70,15 @@
     "eslint-plugin-prettier": "^5.5.4",
     "jest": "^29.7.0",
     "prettier": "^3.6.2",
-    "react": "19.1.0",
-    "react-native": "0.81.4",
+    "react": "^18.3.1",
+    "react-native": "^0.77.2",
     "react-native-builder-bob": "^0.40.13",
     "release-it": "^19.0.4",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": "^18.3.1 || ^19.1.0",
+    "react-native": "^0.77.2 || ^0.81.0"
   },
   "workspaces": [
     "example"
@@ -156,13 +146,13 @@
     "version": "0.54.3"
   },
   "rnx-kit": {
-    "kitType": "app",
+    "kitType": "library",
     "alignDeps": {
       "presets": [
         "@rnmf/preset"
       ],
       "requirements": [
-        "react-native@0.77 || 0.81"
+        "react-native@0.77 || >=0.80 <0.82"
       ],
       "capabilities": [
         "core",

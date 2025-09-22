@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from 'react-native';
-import App from 'mobile-remote-y';
+import App from '@rnmf/mobile';
 
 export default function Example() {
   return (
